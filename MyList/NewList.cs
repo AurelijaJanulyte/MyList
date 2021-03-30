@@ -49,11 +49,11 @@ namespace MyList
             {
                 if(NewArray[i].Equals(item)) 
                 {
-                    for (int j = i + 1; j < Count; j++) 
+                    for (int j = i; j < Count; j++) 
                     {
-                        NewArray[j -1] = secondArray[j];
-                        Count--;
+                        NewArray[j] = secondArray[j + 1];
                     }
+                    Count--;
                 }
             }
         }
@@ -130,17 +130,25 @@ namespace MyList
                     NewArray[i] = secondArray[i + 1];
                 }
             }
+
             Count--;
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            Count = 0;
         }
-
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            if (array.Length < Count)
+            {
+                throw new ArgumentOutOfRangeException("Your array too small, select new one");
+            }
+
+            for (int i = 0; i < Count; i++)
+            {
+                array[arrayIndex + i] = NewArray[i];
+            }
         }
 
         bool ICollection<T>.Remove(T item)

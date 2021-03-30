@@ -182,5 +182,25 @@ namespace MyList.Tests
             list.Insert(4,4);
             Assert.Equal(secondList, list);
         }
+
+        [Fact]
+        public void CopyTo_ListElementsAreInsertedAtTheEnd() 
+        {
+            NewList<int> list = new NewList<int> { 10, 20, 30, 40, 50, 60, 70 };
+            int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            list.CopyTo(array,2);
+            int[] secondArray = new int[] { 1, 2, 10, 20, 30, 40, 50, 60, 70, 10 };
+            Assert.Equal(secondArray, array);
+        }
+
+        [Fact]
+        public void CopyTo_ListElementsAreInsertedAtTheBeginning()
+        {
+            NewList<int> list = new NewList<int> { 10, 20, 30, 40, 50, 60, 70 };
+            int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            list.CopyTo(array, 2);
+            int[] secondArray = new int[] { 10, 20, 30, 40, 50, 60, 70, 9, 10 };
+            Assert.Equal(secondArray, array);
+        }
     }
 }
