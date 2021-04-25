@@ -36,7 +36,7 @@ namespace MyList
             Count++;
         }
 
-        public void Remove(T item) 
+        public bool Remove(T item) 
         {
             T[] secondArray = new T[Count + 1];
 
@@ -44,6 +44,8 @@ namespace MyList
             {
                 secondArray[i] = NewArray[i];
             }
+
+            var wasSomethingRemoved = false;
 
             for(int i = 0; i < Count; i++) 
             {
@@ -54,8 +56,11 @@ namespace MyList
                         NewArray[j] = secondArray[j + 1];
                     }
                     Count--;
+                    wasSomethingRemoved = true;
                 }
             }
+
+            return wasSomethingRemoved;
         }
 
         public bool Contains(T item) 
@@ -140,20 +145,15 @@ namespace MyList
         }
         public void CopyTo(T[] array, int arrayIndex)
         {
-            if (array.Length < Count)
+            if (array.Length - arrayIndex < Count)
             {
-                throw new ArgumentOutOfRangeException("Your array too small, select new one");
+                throw new ArgumentOutOfRangeException("Target array too small");
             }
 
             for (int i = 0; i < Count; i++)
             {
                 array[arrayIndex + i] = NewArray[i];
             }
-        }
-
-        bool ICollection<T>.Remove(T item)
-        {
-            throw new NotImplementedException();
         }
     }
 }

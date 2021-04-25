@@ -80,27 +80,30 @@ namespace MyList.Tests
         public void Remove_ItemDeletionAtTheBeginningDoesNotDisturbArraySequence()
         {
             NewList<int> list = new NewList<int> { 1, 2, 3};
-            list.Remove(1);
+            var result = list.Remove(1);
             NewList<int> secondList = new NewList<int> { 2, 3};
             Assert.Equal(secondList, list);
+            Assert.True(result);
         }
 
         [Fact]
         public void Remove_ItemDeletionInTheMiddleDoesNotDisturbArraySequence()
         {
             NewList<int> list = new NewList<int> { 1, 2, 3 };
-            list.Remove(2);
+            var result = list.Remove(2);
             NewList<int> secondList = new NewList<int> { 1, 3 };
             Assert.Equal(secondList, list);
+            Assert.True(result);
         }
 
         [Fact]
         public void Remove_ItemDeletionAtTheEndDoesNotDisturbArraySequence() 
         {
             NewList<int> list = new NewList<int> { 1, 2, 3, 4, 5};
-            list.Remove(5);
+            var result = list.Remove(5);
             NewList<int> secondList = new NewList<int> { 1, 2, 3, 4};
             Assert.Equal(secondList,list);
+            Assert.True(result);
         }
 
         [Fact]
@@ -108,9 +111,10 @@ namespace MyList.Tests
         {
             NewList<string> list = new NewList<string> { "vienas", "vienuolika" };
             var result1 = list.Count;
-            list.Remove("vie");
+           var result =  list.Remove("vie");
             var result2 = list.Count;
             Assert.Equal(result1,result2);
+            Assert.False(result);
         }
 
         [Fact]
@@ -196,11 +200,19 @@ namespace MyList.Tests
         [Fact]
         public void CopyTo_ListElementsAreInsertedAtTheBeginning()
         {
-            NewList<int> list = new NewList<int> { 10, 20, 30, 40, 50, 60, 70 };
-            int[] array = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            list.CopyTo(array, 2);
-            int[] secondArray = new int[] { 10, 20, 30, 40, 50, 60, 70, 9, 10 };
+            NewList<int> list = new NewList<int> { 10, 20, 30, 40 };
+            int[] array = new int[] { 1, 2, 3, 4, 5 };
+            list.CopyTo(array, 0);
+            int[] secondArray = new int[] { 10, 20, 30, 40, 5 };
             Assert.Equal(secondArray, array);
+        }
+
+        [Fact]
+        public void CopyTo_IfArrayLengthTooSmallThrowException() 
+        {
+            NewList<int> list = new NewList<int> { 10, 20, 30, 40 };
+            int[] array = new int[] { 1, 2, 3, 4 };
+            Assert.Throws<ArgumentOutOfRangeException>(()=> list.CopyTo(array,1));
         }
     }
 }
